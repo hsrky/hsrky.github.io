@@ -1,6 +1,6 @@
 var V_WIDTH = 320;
 var V_HEIGHT = 240;
-
+imageMatrices = [];
 $(document).ready(function () {
     var video = initWebcam();
     if (!video) {
@@ -13,9 +13,10 @@ $(document).ready(function () {
     var resultCanvas = $('#result').get(0);
     
     $('.btn-capture').click(function () {
+        // when "Capture" button is clicked, capture all images, and store to imageList
         var captured = 0;
         var total_frame = parseInt($('#total_frame').val(), 10);
-        var interval = parseInt($('#interval').val(), 10);
+        var captureInterval = parseInt($('#interval').val(), 10);
         var placeholder =
                 '<div class="captured-image">' +
                 '  <div>Image #{count}</div>' +
@@ -23,7 +24,9 @@ $(document).ready(function () {
                 '</div>';
         
         $imageList.children().remove(); // clear prev images
+        
         var intervalId = setInterval(function () {
+            // capture an image every given interval
             if (captured >= total_frame) {
                 clearInterval(intervalId);
                 // on done, draw first captured on region selection area
@@ -36,13 +39,21 @@ $(document).ready(function () {
             var canvas_id = "ccanvas_" + ++captured;
             var html = $.t(placeholder, {count: captured, canvas_id: canvas_id, width: V_WIDTH, height: V_HEIGHT});
             $imageList.append(html);
-            captureImage($('#' + canvas_id, $imageList).get(0), video);
-        }, interval);
+            var targetCanvas = $('#' + canvas_id, $imageList).get(0);
+            captureImage(targetCanvas, video);
+        }, captureInterval);
 
     });
 
 
     $('.btn-generate').click(function () {
+        // convert all captured picture to matrix
+        imageMatrices = []; // clear prev matrix
+        var canvasList = $imageList.children().find('canvas');
+        canvasList.each(function() {
+            var m = convertToMatrix(this.getContext('2d').getImageData(0, 0, 320, 240));
+            imageMatrices.push(m);
+        });
         produceCinemaGraph($imageList.find('canvas'), resultCanvas);
     });
 });
@@ -51,20 +62,6 @@ $(document).ready(function () {
 var produceCinemaGraph = function(inputs, resultCanvas) {
     var imgData = inputs[0].getContext('2d').getImageData(0, 0, V_WIDTH, V_HEIGHT);
     reverseImage(resultCanvas, imgData, V_WIDTH, V_HEIGHT);
-};
-
-var toMatrix = function(canvas, width, height) {
-    var imgData = canvas.getContext('2d').getImageData(0, 0, width, height);
-    // todo convert to matrix
-    for(var y = 0; y < height; y++) {
-        for(var x = 0; x < width; x++) {
-            
-        }
-    }
-};
-
-var toImageData = function(matrix) {
-    // back to image
 };
 
 var reverseImage = function (resultCanvas, imgData, width, height) {
@@ -78,10 +75,16 @@ var reverseImage = function (resultCanvas, imgData, width, height) {
         resultData.data[imgLength - i + 2] = imgData.data[i - 2];
         resultData.data[imgLength - i + 3] = imgData.data[i - 1];
     }
+    
     ctx.putImageData(resultData, 0, 0);
 
+    setTimeout(function() {
+        var imgData = matrixToImageData(imageMatrices[0]);
+        ctx.putImageData(imgData, 0, 0);
+    }, 1000);
 };
 
+// capture pixels from `video' at the moment, and save to `canvas'
 var captureImage = function (canvas, video) {
     canvas.getContext("2d").drawImage(video, 0, 0, V_WIDTH, V_HEIGHT);
 };
