@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<HTML>
+    <HEAD>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Computational related libraries -->
+        <script type="text/javascript" src="js/lib/jsfeat.js"></script>
+        <script type="text/javascript" src="js/lib/numeric-1.2.6.js"></script>
+        <script type="text/javascript" src="js/lib/math.js"></script>
+        <!-- Canvas related -->
+        <script type="text/javascript" src="js/lib/easeljs-0.8.0.min.js"></script>
+        <script type="text/javascript" src="js/lib/BitmapData.js"></script>
+        <!-- other scripts -->
+        <script type="text/javascript" src="js/lib/jquery.min.js"></script>
+        <script type="text/javascript" src="js/lib/tweet-templ.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+        <link rel="stylesheet/less" type="text/css" href="/less/style.less" />
+        <script type="text/javascript">
+            less = {
+                env: "development",
+                async: false,
+                fileAsync: false,
+                poll: 1000,
+                functions: {},
+                dumpLineNumbers: "Comments",
+                relativeUrls: false
+            };
+        </script>
+        <script type="text/javascript" src="js/lib/less.js"></script>
+
+    </HEAD>
+    <BODY>
+        <div class="top"></div>
+        <div class="middle">
+            <div class="left">
+                <div class="image-list-title">Captured: </div>
+                <div class="image-list">
+                </div>
+            </div>
+
+            <div class="right">
+                <div class="preview">
+                    <div>Webcam:</div>
+                    <video id="video" width="320" height="240" autoplay="" style="border: 1px solid red"></video>
+                </div>
+                <div class="canvas">
+                    <div>Captured, draw cinemagraph region:</div>
+                    <canvas id="canvas" width="320" height="240"></canvas>
+                </div>
+                <div class="result">
+                    <div>Result:</div>
+                    <canvas id="result" width="320" height="240"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom">            
+            <div class="action">
+                <div class="param">
+                    <label for="total_frame">Total frames: </label>
+                    <input type="text" name="total_frame" id="total_frame" maxlength="3" value="20"/>
+                </div>
+                <div class="param">
+                    <label for="interval">Interval (ms): </label>
+                    <input type="text" name="interval" id="interval" maxlength="2" value="200"/>
+                </div>
+                <div class="input-area" style="float:left">
+                    <div class="btn-container">
+                        <input class="btn-capture" type="button" value="Capture" />
+                        <input class="btn-generate" type="button" value="Generate" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </BODY>
+</HTML>
