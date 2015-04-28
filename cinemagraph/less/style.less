@@ -68,15 +68,24 @@ body {
     padding: 8px;
     //height: calc(~'100% - 32px');
     overflow-y: auto;
+    video {
+        border: 1px solid red;
+    }
 }
 
 .result {
     .preview();
-    //display: none;
+    
+    canvas {
+        border: 1px solid green;
+    }
 }
 
 .canvas {
     .preview();
+    canvas {
+        border: 1px solid yellow;
+    }
 }
 
 .action {

@@ -2,7 +2,7 @@
 <HTML>
     <HEAD>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <TITLE>Cinemagraph demo</TITLE>
+        <TITLE>Computational Photography</TITLE>
         <!-- Computational related libraries -->
         <script type="text/javascript" src="js/lib/jsfeat.js"></script>
         <script type="text/javascript" src="js/lib/math.js"></script>
@@ -14,7 +14,7 @@
         <!-- application scripts -->
         <script type="text/javascript" src="js/app.js"></script>
         <script type="text/javascript" src="js/imageMatrix.js"></script>
-        <script type="text/javascript" src="js/videoTexture.js"></script>
+        <script type="text/javascript" src="js/averageImages.js"></script>
         
         <!-- style scripting -->
         <link rel="stylesheet/less" type="text/css" href="less/style.less" />
@@ -44,9 +44,9 @@
             <div class="right">
                 <div class="preview">
                     <div>Webcam:</div>
-                    <video id="video" width="320" height="240" autoplay="" style="border: 1px solid red"></video>
+                    <video id="video" width="320" height="240" autoplay=""></video>
                 </div>
-                <div class="canvas">
+                <div class="canvas" style="display: none">
                     <div>Captured, draw cinemagraph region:</div>
                     <canvas id="canvas" width="320" height="240"></canvas>
                 </div>
@@ -61,16 +61,16 @@
             <div class="action">
                 <div class="param">
                     <label for="total_frame">Total frames: </label>
-                    <input type="text" name="total_frame" id="total_frame" maxlength="3" value="20"/>
+                    <input type="text" name="total_frame" id="total_frame" maxlength="3" value="3"/>
                 </div>
                 <div class="param">
                     <label for="interval">Interval (ms): </label>
-                    <input type="text" name="interval" id="interval" maxlength="2" value="200"/>
+                    <input type="text" name="interval" id="interval" maxlength="5" value="5000"/>
                 </div>
                 <div class="input-area" style="float:left">
                     <div class="btn-container">
                         <input class="btn-capture" type="button" value="Capture" />
-                        <input class="btn-generate" type="button" value="Generate" />
+                        <input class="btn-generate" type="button" value="Average" disabled />
                     </div>
                 </div>
             </div>
