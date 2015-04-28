@@ -25,9 +25,10 @@ $(document).ready(function () {
         
         $imageList.children().remove(); // clear prev images
         var capture = function() {
+            $('.btn-capture').val('Capturing... ('+ (captured+ 1) +')').prop('disabled', true);
             var canvas_id = "ccanvas_" + ++captured;
             var html = $.t(placeholder, {count: captured, canvas_id: canvas_id, width: V_WIDTH, height: V_HEIGHT});
-            $imageList.append(html);
+            $imageList.prepend(html);
             var targetCanvas = $('#' + canvas_id, $imageList).get(0);
             captureImage(targetCanvas, video);
         };
@@ -37,6 +38,7 @@ $(document).ready(function () {
             capture();
             if (captured >= total_frame) {
                 clearInterval(intervalId);
+                $('.btn-capture').val("Capture again").prop('disabled', false);
                 $('.btn-generate').prop('disabled', false);
                 return;
             }
