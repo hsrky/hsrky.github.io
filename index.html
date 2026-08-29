@@ -1,31 +1,335 @@
-<html>
-  <head>
-    <title>Index</title>
-  </head>
-  <body>
-  <p>
-    <a href="cp" title="outdated">Computation photography</a>
-  </p>
-  <p>
-    <a href="https://jzqbfsdk.ap-southeast-1.clawcloudrun.com">Personal LobeChat deployment</a>
-    <div style="padding-left: 16px">
-      API Metrics and Usages:
-      <ul>
-        <li><a href="https://platform.openai.com/settings/organization/usage" target="_blank">OpenAI</a></li>
-        <li><a href="https://console.x.ai" target="_blank">xAI</a></li>
-        <li><a href="https://platform.deepseek.com/usage" target="_blank">DeepSeek</a></li>
-        <li><a href="https://console.cloud.google.com/apis/dashboard" target="_blank">Gemini</a></li>
-        <li><a href="https://console.anthropic.com/settings/usage" target="_blank">Anthropic Claude</a></li>
-        <li><a href="https://bailian.console.alibabacloud.com/?tab=dashboard#/model-telemetry" target="_blank">Qwen</a></li>
-        <li><a href="https://open.bigmodel.cn/finance/expensebill/list?active=detail" target="_blank">智谱 GLM</a></li>
-        <li><a href="https://z.ai/manage-apikey/billing" target="_blank">Z AI</a></li>
-        <li><a href="https://aistudio.google.com/usage?timeRange=last-28-days" target="_blank">Gemini @ Google</a></li>
-      </ul>
-      Hosting:
-      <ul>
-        <li><a href="https://ap-southeast-1.run.claw.cloud" title="docker deployment platform" target="_blank">ClawCloud Run</a></li>
-      </ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hsrky — Personal Space</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface-hover: #1a1a25;
+            --border: #222233;
+            --text: #e4e4ef;
+            --text-muted: #8892a0;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.15);
+            --success: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(99, 102, 241, 0.08), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(34, 197, 94, 0.05), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .tagline {
+            display: inline-flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tag {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .section { margin-bottom: 2rem; }
+
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: var(--surface-hover);
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .card + .card { margin-top: 1rem; }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .card-icon.chat { background: rgba(99, 102, 241, 0.15); }
+        .card-icon.photo { background: rgba(34, 197, 94, 0.15); }
+        .card-icon.metrics { background: rgba(245, 158, 11, 0.15); }
+
+        .card-title { font-size: 1.1rem; font-weight: 600; }
+        .card-desc { color: var(--text-muted); font-size: 0.9rem; }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .link-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .link-item svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            color: var(--success);
+            margin-top: 0.5rem;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 640px) {
+            .container { padding: 2rem 1rem; }
+            .header h1 { font-size: 1.75rem; }
+            .links-grid { grid-template-columns: 1fr; }
+            .card { padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="avatar">H</div>
+            <h1>hsrky</h1>
+            <p>Building with AI &middot; Exploring computation photography</p>
+            <div class="tagline">
+                <span class="tag">AI Enthusiast</span>
+                <span class="tag">Photography</span>
+                <span class="tag">Open Source</span>
+            </div>
+        </header>
+
+        <div class="section">
+            <div class="section-title">Services</div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon chat">&#128172;</div>
+                    <div>
+                        <div class="card-title">Personal LobeChat</div>
+                        <div class="card-desc">Self-hosted AI chat interface</div>
+                        <div class="status"><span class="status-dot"></span>Online</div>
+                    </div>
+                </div>
+                <a href="https://jzqbfsdk.ap-southeast-1.clawcloudrun.com" class="link-item" style="display: inline-flex;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    <span>jzqbfsdk.ap-southeast-1.clawcloudrun.com</span>
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon photo">&#128247;</div>
+                    <div>
+                        <div class="card-title">Computation Photography</div>
+                        <div class="card-desc">Experiments and projects</div>
+                    </div>
+                </div>
+                <a href="cp" class="link-item" style="display: inline-flex;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    <span>View Projects &rarr;</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">API Metrics &amp; Usage</div>
+            <div class="links-grid">
+                <a href="https://platform.openai.com/settings/organization/usage" target="_blank" class="link-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>OpenAI</span>
+                </a>
+                <a href="https://console.x.ai" target="_blank" class="link-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>xAI</span>
+                </a>
+                <a href="https://platform.deepseek.com/usage" target="_blank" class="link-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>DeepSeek</span>
+                </a>
+                <a href="https://aistudio.google.com/usage?timeRange=last-28-days" target="_blank" class="link-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>Gemini</span>
+                </a>
+                <a href="https://console.anthropic.com/settings/usage" target="_blank" class="link-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>Claude</span>
+                </a>
+                <a href="https://bailian.console.alibabacloud.com/?tab=dashboard#/model-telemetry" target="_blank" class="link-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>Qwen</span>
+                </a>
+                <a href="https://open.bigmodel.cn/finance/expensebill/list?active=detail" target="_blank" class="link-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>智谱 GLM</span>
+                </a>
+                <a href="https://z.ai/manage-apikey/billing" target="_blank" class="link-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>Z AI</span>
+                </a>
+                <a href="https://console.cloud.google.com/apis/dashboard" target="_blank" class="link-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>GCP APIs</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Infrastructure</div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon metrics">&#128640;</div>
+                    <div>
+                        <div class="card-title">ClawCloud Run</div>
+                        <div class="card-desc">Docker deployment platform</div>
+                    </div>
+                </div>
+                <a href="https://ap-southeast-1.run.claw.cloud" target="_blank" class="link-item" style="display: inline-flex;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    <span>ap-southeast-1.run.claw.cloud</span>
+                </a>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Built with care &middot; Hosted on GitHub Pages</p>
+        </footer>
     </div>
-  </p>
-  </body>
+</body>
 </html>
