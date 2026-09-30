@@ -80,31 +80,37 @@ var getImageData = function (canvas, x, y) {
 
 var initWebcam = function () {
     var video = $('#video').get(0);
-    navigator.getUserMedia = (navigator.getUserMedia ||
-            navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia ||
-            navigator.msGetUserMedia);
 
-    if (navigator.getUserMedia) {
-        navigator.getUserMedia(
-                {
-                    video: true,
-                    audio: false
-                },
-        function (stream) {
-            var url = window.URL || window.webkitURL;
-            video.src = url ? url.createObjectURL(stream) : stream;
-            //video.play();
-        },
-                function (error) {
-                    alert("Unable to start video, " + error.name)
-                    return;
-                }
-        );
-    }
-    else {
-        alert('Sorry, the browser you are using doesn\'t support getUserMedia');
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        if (!window.isSecureContext) {
+            alert('Camera access requires a secure context. Open the page via http://localhost or https:// instead of a plain http:// address.');
+        } else {
+            alert('Sorry, the browser you are using doesn\'t support getUserMedia');
+        }
         return;
     }
+
+    navigator.mediaDevices.getUserMedia({
+        video: {width: V_WIDTH, height: V_HEIGHT},
+        audio: false
+    }).then(function (stream) {
+        video.srcObject = stream;
+        var playPromise = video.play();
+        if (playPromise && playPromise.catch) {
+            playPromise.catch(function () {}); // autoplay attribute will retry
+        }
+    }).catch(function (error) {
+        var msg = "Unable to start video, " + error.name;
+        if (error.name === 'NotAllowedError') {
+            msg += '. Allow camera access for this site in Chrome, and for Chrome in ' +
+                    'macOS System Settings > Privacy & Security > Camera.';
+        } else if (error.name === 'NotFoundError') {
+            msg += '. No camera was found.';
+        } else if (error.name === 'NotReadableError') {
+            msg += '. The camera may be in use by another application.';
+        }
+        alert(msg);
+    });
+
     return video;
 };
