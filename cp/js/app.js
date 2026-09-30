@@ -56,14 +56,23 @@ $(document).ready(function () {
             var m = convertToMatrix(this.getContext('2d').getImageData(0, 0, 320, 240));
             imageMatrices.push(m);
         });
+        // captured images are prepended (newest first), effects expect capture order
+        imageMatrices.reverse();
         //produceCinemaGraph($imageList.find('canvas'), resultCanvas);
-        average(imageMatrices, resultCanvas);
+        var effect = effects[$('#effect').val()];
+        drawMatrixOnCanvas(effect(imageMatrices), resultCanvas);
     });
 });
 
-var average = function(images, resultCanvas) {
-    var result = averageImages(images);
-    drawMatrixOnCanvas(result, resultCanvas);
+// effects selectable from the dropdown, each takes list of image matrices and returns 1 matrix
+var effects = {
+    average: function(images) { return averageImages(images); },
+    median: function(images) { return stackImages(images, medianPixel); },
+    max: function(images) { return stackImages(images, maxPixel); },
+    min: function(images) { return stackImages(images, minPixel); },
+    clone: function(images) { return cloneImages(images); },
+    timeSmear: function(images) { return timeSmear(images); },
+    motionReveal: function(images) { return motionReveal(images); }
 };
 
 // capture pixels from `video' at the moment, and save to `canvas'
